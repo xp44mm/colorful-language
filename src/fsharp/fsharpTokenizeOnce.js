@@ -1,20 +1,23 @@
-﻿import { matching, trampoline } from 'structural-comparison'
+﻿import { matching } from "structural-comparison"
 import { trySymbol } from '../trySymbol'
 import { tryWhitespace } from '../tryWhitespace'
 import { tryWord } from '../tryWord'
+import { tryAsterisk } from "./tryAsterisk"
 import { tryBang } from './tryBang'
 import { tryBlockComment } from './tryBlockComment'
 import { tryChar } from './tryChar'
 import { tryDoubleTickIdentifier } from './tryDoubleTickIdentifier'
 import { tryIdentifier } from './tryIdentifier'
+import { tryInterpolatedSingleQuoteString } from './tryInterpolatedSingleQuoteString'
+import { tryInterpolatedTripleQuoteString } from './tryInterpolatedTripleQuoteString'
+import { tryInterpolatedVerbatimString } from './tryInterpolatedVerbatimString'
 import { trySingleLineComment } from './trySingleLineComment'
 import { trySingleQuoteString } from './trySingleQuoteString'
 import { tryTripleQuoteString } from './tryTripleQuoteString'
 import { tryTypeParameter } from './tryTypeParameter'
 import { tryVerbatimString } from './tryVerbatimString'
-import { tryAsterisk } from "./tryAsterisk"
 
-const tokenizeOnce = matching([
+export const fsharpTokenizeOnce = matching([
     tryWhitespace,
     trySingleLineComment,
     tryAsterisk,
@@ -25,25 +28,11 @@ const tokenizeOnce = matching([
     tryTripleQuoteString,
     tryVerbatimString,
     trySingleQuoteString,
+    tryInterpolatedTripleQuoteString,
+    tryInterpolatedSingleQuoteString,
+    tryInterpolatedVerbatimString,
     tryBang,
     tryIdentifier,
     tryWord,
     trySymbol,
 ])
-
-export const takeHole = (takeInterpolatedStringInternal, input) => {
-    const loop = (tokens = [], input) => {
-        if (input === "") {
-            return tokens
-        } else {
-            let { token, restInput } = tokenizeOnce(input)
-            if (token === "}") {
-                return takeInterpolatedStringInternal(tokens, "}", restInput)
-            } else {
-                return () => loop([...tokens, token], restInput)
-            }
-        }
-    }
-    const iter = trampoline(loop)
-    return iter([], input)
-}

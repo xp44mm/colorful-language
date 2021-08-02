@@ -1,7 +1,6 @@
-﻿import { matching, trampoline } from "structural-comparison"
+﻿import { trampoline } from "structural-comparison"
 
-export function tokenizeConfig(tokenizers) {
-    const tokenizeOnce = (input) => matching(tokenizers, input)
+export function tokenizeConfig(tokenizeOnce) {
     function loop(accTokens = [], input) {
         if (input === "") {
             return accTokens

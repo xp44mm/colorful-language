@@ -20,9 +20,6 @@ const eachBang = (pattern = /^/) => (input = "") => {
     }
 }
 
-const tokenizers =
-    rgxBangs.map(pattern => eachBang(pattern))
+const tokenizers = rgxBangs.map(pattern => eachBang(pattern))
 
-export const tryBang = (input = "") => {
-    return matching(tokenizers, input)
-}
+export const tryBang = matching(tokenizers)

@@ -1,6 +1,10 @@
-﻿import { button, div, textarea, textNode, pre } from 'hyperscript-rxjs'
+﻿import { button, div, option, pre, select, textarea, textNode } from 'hyperscript-rxjs'
+import "../../css/colors/pre.less"
 import { fsharpTokenize } from '../fsharp/fsharpTokenize'
-import { render } from './render'
+import { fslexTokenize } from '../fslex/fslexTokenize'
+import { fsyaccTokenize } from '../fsyacc/fsyaccTokenize'
+
+import { render } from '../render'
 
 export function demo() {
     let inp = textarea({
@@ -8,28 +12,33 @@ export function demo() {
         rows: 7,
     })
 
+    let type = select({ value: 'F#' }, ['F#', 'fsl', 'fsy'].map(text => option({ text })))
+
     let outp = pre()
 
     return div([
         inp,
-        button({
-            className: "btn-primary",
-        }, [
-            textNode("ok"),
-        ]).subscribeEvent('click', e => {
-            let tokens = fsharpTokenize(inp.value)
-            console.log(tokens)
-            let vmodels =
-                tokens.map(tok => {
-                    if (typeof tok === "string") {
-                        return { text: tok, nodeName: '#text' }
-                    } else {
-                        let [className, text] = Object.entries(tok)[0]
-                        return { className, text, nodeName: 'CODE', }
+        div(
+            type,
+            button({
+                className: "btn-primary",
+            }, [
+                textNode("highlight"),
+            ]).subscribeEvent('click', e => {
+                let tokens = (() => {
+                    if (type.value === 'F#') {
+                        return fsharpTokenize(inp.value)
+                    } else if (type.value === 'fsl') {
+                        return fslexTokenize(inp.value)
+                    } else if (type.value === 'fsy') {
+                        return fsyaccTokenize(inp.value)
                     }
-                })
-            render(outp, vmodels)
-        }),
+                })("tokens")
+
+                console.log(tokens)
+                render(outp, tokens)
+            }),
+        ),
         outp,
     ])
 
