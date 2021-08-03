@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 module.exports = merge(common, {
     mode: 'production',
     output: {
-        filename: 'parse-html.js',
+        filename: 'colorful-language.js',
     },
     module: {
 

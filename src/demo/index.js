@@ -1,10 +1,7 @@
 ﻿import { button, div, option, pre, select, textarea, textNode } from 'hyperscript-rxjs'
 import "../../css/colors/pre.less"
-import { fsharpTokenize } from '../fsharp/fsharpTokenize'
-import { fslexTokenize } from '../fslex/fslexTokenize'
-import { fsyaccTokenize } from '../fsyacc/fsyaccTokenize'
 
-import { render } from '../render'
+import { highlight } from '../highlight'
 
 export function demo() {
     let inp = textarea({
@@ -13,7 +10,6 @@ export function demo() {
     })
 
     let type = select({ value: 'F#' }, ['F#', 'fsl', 'fsy'].map(text => option({ text })))
-
     let outp = pre()
 
     return div([
@@ -25,18 +21,20 @@ export function demo() {
             }, [
                 textNode("highlight"),
             ]).subscribeEvent('click', e => {
-                let tokens = (() => {
-                    if (type.value === 'F#') {
-                        return fsharpTokenize(inp.value)
-                    } else if (type.value === 'fsl') {
-                        return fslexTokenize(inp.value)
-                    } else if (type.value === 'fsy') {
-                        return fsyaccTokenize(inp.value)
-                    }
-                })("tokens")
+                console.warn('Do not click repeatedly!')
+                highlight(outp, type.value, inp.value)
 
-                console.log(tokens)
-                render(outp, tokens)
+                //let tokens = (() => {
+                //    if (type.value === 'F#') {
+                //        return fsharpTokenize(inp.value)
+                //    } else if (type.value === 'fsl') {
+                //        return fslexTokenize(inp.value)
+                //    } else if (type.value === 'fsy') {
+                //        return fsyaccTokenize(inp.value)
+                //    }
+                //})("tokens")
+                //console.log(tokens)
+                //render(outp, tokens)
             }),
         ),
         outp,
