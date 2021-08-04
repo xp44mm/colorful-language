@@ -19,7 +19,7 @@
     "jest": "27.0.6",
     "less": "4.1.1",
     "less-loader": "10.0.1",
-    "lex-highlight": "0.0.1",
+    "lex-highlight": "0.0.2",
     "mini-css-extract-plugin": "^2.1.0",
     "rxjs": "7.3.0",
     "structural-comparison": "1.0.12",
