@@ -1,7 +1,7 @@
 import './index.css'
 
 import { fragment } from 'hyperscript-rxjs'
-import { demo } from './src/demo'
+import { demo } from './src'
 let elem = demo()
 
 document.addEventListener('DOMContentLoaded', function () {
