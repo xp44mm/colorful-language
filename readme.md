@@ -1,0 +1,1 @@
+The usage is to open the `/dist/index.html` file with a browser.
