@@ -10,7 +10,6 @@ module.exports = merge(common, {
         filename: '[name].[contenthash].js',
     },
     module: {
-
         rules: [
             {
                 test: /\.css$/,

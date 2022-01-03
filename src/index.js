@@ -8,7 +8,7 @@ export function demo() {
         rows: 7,
     })
 
-    let lang = select({ value: 'F#' }, ['F#', 'fsl', 'fsy'].map(text => option({ text })))
+    let lang = select({ value: 'F#' }, ['F#', 'fsl', 'fsy','yacc'].map(text => option({ text })))
     let output = pre()
 
     return div([
